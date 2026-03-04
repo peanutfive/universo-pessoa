@@ -883,7 +883,8 @@ const pessoaData = {
   ],
 
   links: [
-    { source: "pessoa", target: "caeiro", label: "创造者 / 弟子", type: "master" },
+    // 佩索阿 → 核心圈（只连主要异名者、半异名者、重要次要异名者）
+    { source: "pessoa", target: "caeiro", label: "弟子 / 创造者", type: "master" },
     { source: "pessoa", target: "reis", label: "创造者", type: "creator" },
     { source: "pessoa", target: "campos", label: "创造者", type: "creator" },
     { source: "pessoa", target: "soares", label: "半异名", type: "semi" },
@@ -892,100 +893,77 @@ const pessoaData = {
     { source: "pessoa", target: "search", label: "早期异名", type: "creator" },
     { source: "pessoa", target: "anon", label: "童年异名", type: "creator" },
     { source: "pessoa", target: "de_seul", label: "最早的虚构人物", type: "creator" },
-    { source: "pessoa", target: "meluret", label: "法语异名", type: "creator" },
-    { source: "pessoa", target: "baldaya", label: "占星分身", type: "creator" },
-    { source: "pessoa", target: "quaresma", label: "推理分身", type: "creator" },
     { source: "pessoa", target: "faust", label: "正名长诗", type: "creator" },
+    { source: "pessoa", target: "baldaya", label: "占星分身", type: "creator" },
     { source: "pessoa", target: "maria_jose", label: "唯一女性", type: "creator" },
+    // 师徒体系
     { source: "caeiro", target: "reis", label: "师→徒", type: "master" },
     { source: "caeiro", target: "campos", label: "师→徒", type: "master" },
     { source: "caeiro", target: "mora", label: "师→理论家", type: "master" },
     { source: "caeiro", target: "crosse", label: "被翻译", type: "literary" },
     { source: "campos", target: "reis", label: "论辩对手", type: "debate" },
     { source: "campos", target: "caeiro", label: "回忆录", type: "literary" },
+    { source: "mora", target: "reis", label: "哲学盟友", type: "debate" },
+    // 半异名者集群
     { source: "soares", target: "guedes", label: "接替", type: "succession" },
     { source: "soares", target: "teive", label: "同族变体", type: "variant" },
-    { source: "search", target: "c_search", label: "表兄弟", type: "family" },
-    { source: "search", target: "anon", label: "同期异名", type: "contemporary" },
-    { source: "crosse", target: "ii_crosse", label: "兄弟", type: "family" },
-    { source: "mora", target: "reis", label: "哲学盟友", type: "debate" },
-    { source: "pessoa", target: "pacheco", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "mora", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "crosse", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "sousa", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "pantaleao", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "carlos_otto", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "faustino_antunes", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "c_search", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "ii_crosse", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "angard", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "aa_crosse", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "moscow", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "gomes", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "seabra", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "cecilia", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "pasteur", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "merrick", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "diabo_azul", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "diniz", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "dr_caloiro", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "dr_turnips", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "dr_pancracio", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "lanca", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "pasha", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "federico_reis", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "frederick_wyatt", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "keene", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "galliao", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "gervasio_guedes", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "henry_more", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "prosit", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "horace_faber", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "ibis", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "inspector_guedes", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "hyslop", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "joao_caeiro", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "craveiro", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "moura_costa", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "rasteiro", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "scicio", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "lucas_merrick", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "congo", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "kisch", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "michael_otto", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "morris_theodor", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "navas", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "nuno_reis", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "nympha", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "parry", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "ze_pad", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "pero_botelho", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "pip", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "pipa_gomes", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "trochee", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "rev_wyatt", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "sableton", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "sher_henay", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "tagus", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "torquato_rey", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "uncle_pork", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "urban", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "vadooisf", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "wardour", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "willyam_esk", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "alfred_wyatt", label: "创造者", type: "creator" },
+    { source: "soares", target: "sousa", label: "变体前身", type: "variant" },
+    // 家族关系
     { source: "caeiro", target: "joao_caeiro", label: "父→子", type: "family" },
     { source: "reis", target: "nuno_reis", label: "父→子", type: "family" },
     { source: "reis", target: "federico_reis", label: "兄弟", type: "family" },
+    { source: "search", target: "c_search", label: "表兄弟", type: "family" },
+    { source: "crosse", target: "ii_crosse", label: "兄弟", type: "family" },
+    { source: "crosse", target: "aa_crosse", label: "同族", type: "family" },
     { source: "merrick", target: "lucas_merrick", label: "兄弟", type: "family" },
     { source: "carlos_otto", target: "michael_otto", label: "兄弟", type: "family" },
     { source: "frederick_wyatt", target: "alfred_wyatt", label: "兄弟", type: "family" },
     { source: "frederick_wyatt", target: "rev_wyatt", label: "兄弟", type: "family" },
+    // 早期异名者集群
+    { source: "search", target: "anon", label: "同期异名", type: "contemporary" },
+    { source: "anon", target: "merrick", label: "童年同期", type: "contemporary" },
+    { source: "merrick", target: "dr_pancracio", label: "童年同期", type: "contemporary" },
+    { source: "de_seul", target: "dr_pancracio", label: "童年同期", type: "contemporary" },
+    { source: "pip", target: "dr_pancracio", label: "前身", type: "succession" },
+    { source: "anon", target: "ibis", label: "童年同伴", type: "contemporary" },
+    // 翻译/传播关系
+    { source: "mora", target: "pasteur", label: "被翻译", type: "literary" },
+    { source: "horace_faber", target: "navas", label: "被翻译", type: "literary" },
+    // 侦探文学集群
     { source: "pero_botelho", target: "quaresma", label: "灵感来源", type: "literary" },
     { source: "pero_botelho", target: "inspector_guedes", label: "灵感来源", type: "literary" },
     { source: "pero_botelho", target: "uncle_pork", label: "灵感来源", type: "literary" },
-    { source: "mora", target: "pasteur", label: "被翻译", type: "literary" },
-    { source: "horace_faber", target: "navas", label: "被翻译", type: "literary" }
+    // 《闲谈者》O Palrador 集群
+    { source: "dr_turnips", target: "angard", label: "O Palrador", type: "contemporary" },
+    { source: "dr_turnips", target: "moscow", label: "O Palrador", type: "contemporary" },
+    { source: "dr_turnips", target: "cecilia", label: "O Palrador", type: "contemporary" },
+    { source: "dr_turnips", target: "diabo_azul", label: "O Palrador", type: "contemporary" },
+    { source: "dr_turnips", target: "galliao", label: "O Palrador", type: "contemporary" },
+    { source: "dr_turnips", target: "rasteiro", label: "O Palrador", type: "contemporary" },
+    { source: "dr_turnips", target: "scicio", label: "O Palrador", type: "contemporary" },
+    { source: "dr_turnips", target: "nympha", label: "O Palrador", type: "contemporary" },
+    { source: "dr_turnips", target: "morris_theodor", label: "O Palrador", type: "contemporary" },
+    { source: "dr_turnips", target: "urban", label: "O Palrador", type: "contemporary" },
+    { source: "dr_turnips", target: "dr_caloiro", label: "O Palrador", type: "contemporary" },
+    { source: "dr_turnips", target: "ze_pad", label: "O Palrador", type: "contemporary" },
+    { source: "dr_turnips", target: "parry", label: "O Palrador", type: "contemporary" },
+    { source: "dr_turnips", target: "keene", label: "O Palrador", type: "contemporary" },
+    { source: "dr_turnips", target: "sableton", label: "O Palrador", type: "contemporary" },
+    { source: "dr_turnips", target: "kisch", label: "O Palrador", type: "contemporary" },
+    // 英语异名者集群
+    { source: "search", target: "frederick_wyatt", label: "英语同人", type: "contemporary" },
+    { source: "search", target: "henry_more", label: "英语同人", type: "contemporary" },
+    { source: "frederick_wyatt", target: "horace_faber", label: "英语同人", type: "contemporary" },
+    { source: "frederick_wyatt", target: "trochee", label: "英语同人", type: "contemporary" },
+    { source: "anon", target: "tagus", label: "南非同期", type: "contemporary" },
+    { source: "anon", target: "willyam_esk", label: "早期英语", type: "contemporary" },
+    // 法语异名者集群
+    { source: "meluret", target: "pasteur", label: "法语同人", type: "contemporary" },
+    { source: "meluret", target: "de_seul", label: "法语同人", type: "contemporary" },
+    // 杂散关系
+    { source: "congo", target: "lanca", label: "推介人", type: "literary" },
+    { source: "pantaleao", target: "torquato_rey", label: "出版其遗作", type: "literary" },
+    { source: "moura_costa", target: "pipa_gomes", label: "O Phosphoro", type: "contemporary" }
   ]
 };
 
@@ -997,15 +975,15 @@ const typeColors = {
 };
 
 const linkColors = {
-  master: "rgba(200,170,80,0.4)",
-  creator: "rgba(200,190,170,0.12)",
-  semi: "rgba(100,140,180,0.3)",
-  debate: "rgba(200,100,80,0.3)",
-  literary: "rgba(140,180,120,0.3)",
+  master: "rgba(200,170,80,0.5)",
+  creator: "rgba(200,190,170,0.2)",
+  semi: "rgba(100,140,180,0.35)",
+  debate: "rgba(200,100,80,0.35)",
+  literary: "rgba(140,180,120,0.25)",
   succession: "rgba(100,140,180,0.2)",
   variant: "rgba(140,120,180,0.2)",
-  family: "rgba(180,140,160,0.2)",
-  contemporary: "rgba(160,160,160,0.15)"
+  family: "rgba(180,140,160,0.25)",
+  contemporary: "rgba(160,160,160,0.1)"
 };
 
 const width = window.innerWidth;
@@ -1060,15 +1038,32 @@ const zoom = d3.zoom()
 
 svg.call(zoom);
 
+function radialTarget(d) {
+  if (d.type === "ortonym") return 0;
+  if (d.type === "major") return 160;
+  if (d.type === "semi") return 260;
+  return 420;
+}
+
 const simulation = d3.forceSimulation(pessoaData.nodes)
   .force("link", d3.forceLink(pessoaData.links).id(d => d.id).distance(d => {
-    if (d.type === "master") return 90;
-    if (d.type === "creator") return 110;
+    if (d.type === "master") return 140;
+    if (d.type === "creator") return 160;
+    if (d.type === "family") return 60;
+    if (d.type === "contemporary") return 55;
     return 100;
+  }).strength(d => {
+    if (d.type === "family" || d.type === "contemporary") return 0.7;
+    if (d.type === "master") return 0.5;
+    return 0.3;
   }))
-  .force("charge", d3.forceManyBody().strength(d => d.type === "ortonym" ? -600 : d.type === "major" ? -350 : d.type === "semi" ? -180 : -80))
-  .force("center", d3.forceCenter(width / 2, height / 2))
-  .force("collision", d3.forceCollide().radius(d => Math.min(d.radius + 12, 20)));
+  .force("charge", d3.forceManyBody()
+    .strength(d => d.type === "ortonym" ? -1200 : d.type === "major" ? -500 : d.type === "semi" ? -300 : -120)
+    .distanceMax(500))
+  .force("radial", d3.forceRadial(d => radialTarget(d), width / 2, height / 2)
+    .strength(d => d.type === "ortonym" ? 1 : d.type === "major" ? 0.3 : d.type === "semi" ? 0.2 : 0.08))
+  .force("center", d3.forceCenter(width / 2, height / 2).strength(0.03))
+  .force("collision", d3.forceCollide().radius(d => d.radius + 18).strength(0.8));
 
 const linkGroup = g.append("g").attr("class", "links");
 const linkLines = linkGroup.selectAll("line")
@@ -1100,7 +1095,7 @@ nodeGs.append("circle")
   .attr("class", "node-glow")
   .attr("r", d => d.radius * 2)
   .attr("fill", d => `url(#glow-${d.id})`)
-  .attr("opacity", 0.3);
+  .attr("opacity", d => d.type === "minor" ? 0.15 : d.type === "semi" ? 0.25 : 0.35);
 
 nodeGs.append("circle")
   .attr("class", "node-core")
@@ -1115,21 +1110,24 @@ nodeGs.append("circle")
   .attr("stroke-opacity", 0.5);
 
 nodeGs.append("text")
+  .attr("class", "label-zh")
   .attr("dy", d => d.radius + 16)
   .attr("text-anchor", "middle")
   .attr("fill", d => typeColors[d.type])
   .attr("font-size", d => d.type === "ortonym" ? "13px" : d.type === "major" || d.type === "semi" ? "12px" : "10px")
   .attr("font-family", "'Noto Serif SC', serif")
-  .attr("opacity", d => d.type === "minor" ? 0.6 : 0.85)
+  .attr("opacity", d => d.type === "minor" && d.radius <= 7 ? 0 : d.type === "minor" ? 0.5 : 0.85)
   .text(d => d.name);
 
 nodeGs.append("text")
+  .attr("class", "label-pt")
   .attr("dy", d => d.radius + 30)
   .attr("text-anchor", "middle")
   .attr("fill", "rgba(200,190,170,0.35)")
   .attr("font-size", "9px")
   .attr("font-family", "'Cormorant Garamond', serif")
   .attr("font-style", "italic")
+  .attr("opacity", d => d.type === "minor" ? 0 : 1)
   .text(d => d.namePt);
 
 const tooltip = document.getElementById("tooltip");
@@ -1137,24 +1135,48 @@ const detailPanel = document.getElementById("detailPanel");
 const panelContent = document.getElementById("panelContent");
 const panelClose = document.getElementById("panelClose");
 
+const connectedIds = new Set();
+
 nodeGs.on("mouseover", function(event, d) {
   tooltip.style.opacity = "1";
   tooltip.innerHTML = `<strong>${d.name}</strong><br><span style="opacity:0.6;font-style:italic">${d.namePt}</span>`;
 
+  connectedIds.clear();
+  connectedIds.add(d.id);
+  pessoaData.links.forEach(l => {
+    const sid = l.source.id || l.source;
+    const tid = l.target.id || l.target;
+    if (sid === d.id) connectedIds.add(tid);
+    if (tid === d.id) connectedIds.add(sid);
+  });
+
   d3.select(this).select(".node-core")
     .transition().duration(200)
     .attr("opacity", 1)
-    .attr("r", d.radius * 1.15);
+    .attr("r", d.radius * 1.2);
   d3.select(this).select(".node-glow")
     .transition().duration(200)
-    .attr("opacity", 0.6);
+    .attr("opacity", 0.7);
+  d3.select(this).select(".label-zh")
+    .transition().duration(200)
+    .attr("opacity", 1);
+  d3.select(this).select(".label-pt")
+    .transition().duration(200)
+    .attr("opacity", 1);
+
+  nodeGs.filter(n => !connectedIds.has(n.id))
+    .transition().duration(200)
+    .attr("opacity", 0.08);
 
   linkLabels
     .filter(l => l.source.id === d.id || l.target.id === d.id)
     .transition().duration(200).attr("opacity", 1);
   linkLines
     .filter(l => l.source.id === d.id || l.target.id === d.id)
-    .transition().duration(200).attr("stroke-opacity", 1).attr("stroke-width", 2);
+    .transition().duration(200).attr("stroke-opacity", 1).attr("stroke-width", 2.5);
+  linkLines
+    .filter(l => l.source.id !== d.id && l.target.id !== d.id)
+    .transition().duration(200).attr("stroke-opacity", 0.03);
 });
 
 nodeGs.on("mousemove", function(event) {
@@ -1172,9 +1194,19 @@ nodeGs.on("mouseout", function(event, d) {
   d3.select(this).select(".node-glow")
     .transition().duration(300)
     .attr("opacity", 0.3);
+  d3.select(this).select(".label-zh")
+    .transition().duration(300)
+    .attr("opacity", d.type === "minor" && d.radius <= 7 ? 0 : d.type === "minor" ? 0.5 : 0.85);
+  d3.select(this).select(".label-pt")
+    .transition().duration(300)
+    .attr("opacity", d.type === "minor" ? 0 : 1);
+
+  nodeGs.transition().duration(300).attr("opacity", 1);
 
   linkLabels.transition().duration(300).attr("opacity", 0);
-  linkLines.transition().duration(300).attr("stroke-opacity", 1).attr("stroke-width", d => d.type === "master" ? 1.5 : 0.8);
+  linkLines.transition().duration(300)
+    .attr("stroke-opacity", 1)
+    .attr("stroke-width", d => d.type === "master" ? 1.5 : 0.8);
 });
 
 nodeGs.on("click", function(event, d) {
@@ -1382,7 +1414,7 @@ function matchFilter(node) {
   return false;
 }
 
-svg.call(zoom.transform, d3.zoomIdentity.translate(width * 0.05, height * 0.05).scale(0.9));
+svg.call(zoom.transform, d3.zoomIdentity.translate(width * 0.1, height * 0.08).scale(0.75));
 </script>
 </body>
 </html>
