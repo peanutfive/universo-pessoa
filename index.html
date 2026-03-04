@@ -346,7 +346,7 @@
 <div class="title-bar">
   <div class="main-title">
     UNIVERSO PESSOA
-    <span>费尔南多·佩索阿异名宇宙 · 交互星图</span>
+    <span>费尔南多·佩索阿异名宇宙 · 72+ 异名者 · 交互星图</span>
   </div>
   <div class="controls">
     <button class="filter-btn active" data-filter="all">全部</button>
@@ -775,20 +775,36 @@ const pessoaData = {
       radius: 6
     },
     {
-      id: "faustino",
+      id: "carlos_otto",
       name: "卡洛斯·奥托",
       namePt: "Carlos Otto",
       type: "minor",
       lang: "pt",
       born: "不详",
       died: "不详",
-      bio: "佩索阿少年时代的异名者之一。这些早期异名者的出现证明了佩索阿的「自我分裂」是一种深层的心理需求，而非文学游戏。",
-      style: "杂文。",
+      bio: "诗人，著有《自由搏击论》（Tratado de Lucta Livre）。佩索阿少年时代的异名者之一。",
+      style: "杂文、诗歌。",
       philosophy: "不详",
       quote: "",
       quoteSrc: "",
-      works: [],
-      radius: 6
+      works: [{ title: "Tratado de Lucta Livre", year: "遗稿", desc: "自由搏击论" }],
+      radius: 8
+    },
+    {
+      id: "faustino_antunes",
+      name: "福斯蒂诺·安图内斯",
+      namePt: "Faustino Antunes / A. Moreira",
+      type: "minor",
+      lang: "pt",
+      born: "不详",
+      died: "不详",
+      bio: "心理学家，著有《论直觉》（Ensaio sobre a Intuição）。",
+      style: "心理学论述。",
+      philosophy: "不详",
+      quote: "",
+      quoteSrc: "",
+      works: [{ title: "Ensaio sobre a Intuição", year: "遗稿", desc: "论直觉" }],
+      radius: 7
     },
     {
       id: "faust",
@@ -807,7 +823,63 @@ const pessoaData = {
         { title: "Fausto: Tragédia Subjectiva（浮士德：主观悲剧）", year: "遗稿", desc: "未完成的戏剧长诗，佩索阿对歌德浮士德的存在主义回应" }
       ],
       radius: 12
-    }
+    },
+    { id: "angard", name: "A. 弗朗西斯科·德·保拉·安加尔", namePt: "A. Francisco de Paula Angard", type: "minor", lang: "pt", bio: "《闲谈者》合作者，著有「科学文本」。", style: "", philosophy: "", quote: "", quoteSrc: "", works: [], radius: 6 },
+    { id: "aa_crosse", name: "A.A. 克洛斯", namePt: "A.A. Crosse", type: "minor", lang: "en", bio: "作家与字谜解答者。", style: "", philosophy: "", quote: "", quoteSrc: "", works: [], radius: 6 },
+    { id: "moscow", name: "阿道夫·莫斯科", namePt: "Adolph Moscow", type: "minor", lang: "pt", bio: "《闲谈者》合作者，小说家，著有《巴罗比的小伙子们》。", style: "", philosophy: "", quote: "", quoteSrc: "", works: [], radius: 6 },
+    { id: "alfred_wyatt", name: "阿尔弗雷德·怀亚特", namePt: "Alfred Wyatt", type: "minor", lang: "en", bio: "弗雷德里克·怀亚特之弟，居巴黎。", style: "", philosophy: "", quote: "", quoteSrc: "", works: [], radius: 6 },
+    { id: "gomes", name: "安东尼·戈麦斯", namePt: "Anthony Gomes", type: "minor", lang: "pt", bio: "哲学家，著有《补鞋匠阿方索的滑稽史》。", style: "", philosophy: "", quote: "", quoteSrc: "", works: [], radius: 6 },
+    { id: "seabra", name: "安东尼奥·德·塞布拉", namePt: "António de Seabra", type: "minor", lang: "pt", bio: "文学评论家。", style: "", philosophy: "", quote: "", quoteSrc: "", works: [], radius: 6 },
+    { id: "cecilia", name: "塞西莉亚", namePt: "Cecília", type: "minor", lang: "pt", bio: "《闲谈者》合作者，字谜作者。", style: "", philosophy: "", quote: "", quoteSrc: "", works: [], radius: 6 },
+    { id: "pasteur", name: "克劳德·巴斯德", namePt: "Claude Pasteur", type: "minor", lang: "fr", bio: "安东尼奥·莫拉《异教重建笔记》的法语译者。", style: "", philosophy: "", quote: "", quoteSrc: "", works: [], radius: 6 },
+    { id: "merrick", name: "大卫·梅里克", namePt: "David Merrick", type: "minor", lang: "en", bio: "诗人、故事作者与剧作家，佩索阿童年异名者之一。", style: "", philosophy: "", quote: "", quoteSrc: "", works: [], radius: 7 },
+    { id: "diabo_azul", name: "蓝魔", namePt: "Diabo Azul", type: "minor", lang: "pt", bio: "《闲谈者》合作者，字谜作者。", style: "", philosophy: "", quote: "", quoteSrc: "", works: [], radius: 6 },
+    { id: "diniz", name: "迪尼兹·达·席尔瓦", namePt: "Diniz da Silva", type: "minor", lang: "pt", bio: "诗作《疯狂》作者，曾为《欧洲》撰稿。", style: "", philosophy: "", quote: "", quoteSrc: "", works: [], radius: 6 },
+    { id: "dr_caloiro", name: "卡洛依罗博士", namePt: "Dr. Caloiro", type: "minor", lang: "pt", bio: "《闲谈者》记者，著有《珍珠捕捞》。", style: "", philosophy: "", quote: "", quoteSrc: "", works: [], radius: 6 },
+    { id: "dr_turnips", name: "高登西奥·特纳普斯博士", namePt: "Dr. Gaudencio Turnips", type: "minor", lang: "pt", bio: "英葡记者、幽默作家，《闲谈者》主编。", style: "", philosophy: "", quote: "", quoteSrc: "", works: [], radius: 6 },
+    { id: "dr_pancracio", name: "潘克拉西奥博士", namePt: "Dr. Pancrácio", type: "minor", lang: "pt", bio: "故事作者、诗人、字谜创作者，佩索阿童年异名者。", style: "", philosophy: "", quote: "", quoteSrc: "", works: [], radius: 7 },
+    { id: "lanca", name: "爱德华多·兰萨", namePt: "Eduardo Lança", type: "minor", lang: "pt", bio: "葡巴诗人。", style: "", philosophy: "", quote: "", quoteSrc: "", works: [], radius: 6 },
+    { id: "pasha", name: "埃夫贝迪帕夏", namePt: "Efbeedee Pasha", type: "minor", lang: "en", bio: "幽默故事作者。", style: "", philosophy: "", quote: "", quoteSrc: "", works: [], radius: 6 },
+    { id: "federico_reis", name: "费德里科·雷伊斯", namePt: "Federico Reis", type: "minor", lang: "pt", bio: "散文家，里卡多·雷伊斯之弟，曾撰文论雷伊斯。", style: "", philosophy: "", quote: "", quoteSrc: "", works: [], radius: 8 },
+    { id: "frederick_wyatt", name: "弗雷德里克·怀亚特", namePt: "Frederick Wyatt", type: "minor", lang: "en", bio: "英国诗人与散文家。", style: "", philosophy: "", quote: "", quoteSrc: "", works: [], radius: 7 },
+    { id: "keene", name: "加布里埃尔·基恩", namePt: "Gabriel Keene", type: "minor", lang: "pt", bio: "《闲谈者》中预告的小说《危险岁月》作者。", style: "", philosophy: "", quote: "", quoteSrc: "", works: [], radius: 6 },
+    { id: "galliao", name: "小加利昂", namePt: "Gallião Pequeno", type: "minor", lang: "pt", bio: "《闲谈者》合作者，字谜作者。", style: "", philosophy: "", quote: "", quoteSrc: "", works: [], radius: 6 },
+    { id: "gervasio_guedes", name: "热尔瓦西奥·盖德斯", namePt: "Gervasio Guedes", type: "minor", lang: "pt", bio: "著有《乔治五世加冕》一文。", style: "", philosophy: "", quote: "", quoteSrc: "", works: [], radius: 6 },
+    { id: "henry_more", name: "亨利·莫尔", namePt: "Henry More", type: "minor", lang: "en", bio: "作家与散文家。", style: "", philosophy: "", quote: "", quoteSrc: "", works: [], radius: 6 },
+    { id: "prosit", name: "赫尔·普罗西特", namePt: "Herr Prosit", type: "minor", lang: "de", bio: "埃斯普龙塞达《萨拉曼卡学生》的译者。", style: "", philosophy: "", quote: "", quoteSrc: "", works: [], radius: 6 },
+    { id: "horace_faber", name: "霍勒斯·詹姆斯·费伯", namePt: "Horace James Faber", type: "minor", lang: "en", bio: "英语短篇小说与随笔作者。", style: "", philosophy: "", quote: "", quoteSrc: "", works: [], radius: 6 },
+    { id: "ibis", name: "伊比斯", namePt: "Ibis", type: "minor", lang: "pt", bio: "佩索阿童年角色，伴随其一生，亦曾署名诗作。", style: "", philosophy: "", quote: "", quoteSrc: "", works: [], radius: 7 },
+    { id: "inspector_guedes", name: "盖德斯探长", namePt: "Inspector Guedes", type: "minor", lang: "pt", bio: "受佩罗·博特略启发的侦探角色，短篇侦探故事作者。", style: "", philosophy: "", quote: "", quoteSrc: "", works: [], radius: 6 },
+    { id: "hyslop", name: "J.M. 希斯洛普", namePt: "J.M. Hyslop", type: "minor", lang: "en", bio: "诗人。", style: "", philosophy: "", quote: "", quoteSrc: "", works: [], radius: 6 },
+    { id: "joao_caeiro", name: "若昂·卡埃罗", namePt: "João Caeiro", type: "minor", lang: "pt", bio: "阿尔贝托·卡埃罗与安娜·塔维拉之子。", style: "", philosophy: "", quote: "", quoteSrc: "", works: [], radius: 8 },
+    { id: "craveiro", name: "若昂·克拉维罗", namePt: "João Craveiro", type: "minor", lang: "pt", bio: "记者，西多尼奥·佩雷拉追随者。", style: "", philosophy: "", quote: "", quoteSrc: "", works: [], radius: 6 },
+    { id: "moura_costa", name: "若阿金·莫拉·科斯塔", namePt: "Joaquim Moura Costa", type: "minor", lang: "pt", bio: "讽刺诗人、共和派活跃成员，《磷光》成员。", style: "", philosophy: "", quote: "", quoteSrc: "", works: [], radius: 6 },
+    { id: "rasteiro", name: "若泽·拉斯泰罗", namePt: "José Rasteiro", type: "minor", lang: "pt", bio: "《闲谈者》合作者，谚语与谜语作者。", style: "", philosophy: "", quote: "", quoteSrc: "", works: [], radius: 6 },
+    { id: "scicio", name: "若泽·罗德里格斯·多·瓦莱", namePt: "José Rodrigues do Valle / Scicio", type: "minor", lang: "pt", bio: "《闲谈者》合作者，字谜作者与文学经理。", style: "", philosophy: "", quote: "", quoteSrc: "", works: [], radius: 6 },
+    { id: "lucas_merrick", name: "卢卡斯·梅里克", namePt: "Lucas Merrick", type: "minor", lang: "en", bio: "短篇小说作者，或为大卫·梅里克之弟。", style: "", philosophy: "", quote: "", quoteSrc: "", works: [], radius: 6 },
+    { id: "congo", name: "路易斯·安东尼奥·刚果", namePt: "Luís António Congo", type: "minor", lang: "pt", bio: "《闲谈者》专栏作家，爱德华多·兰萨的推介人。", style: "", philosophy: "", quote: "", quoteSrc: "", works: [], radius: 6 },
+    { id: "kisch", name: "马维尔·基施", namePt: "Marvell Kisch", type: "minor", lang: "pt", bio: "《闲谈者》中预告的小说《疯子的财富》作者。", style: "", philosophy: "", quote: "", quoteSrc: "", works: [], radius: 6 },
+    { id: "michael_otto", name: "迈克尔·奥托", namePt: "Michael Otto", type: "minor", lang: "en", bio: "或为卡洛斯·奥托之弟，受托将《自由搏击论》译为英语。", style: "", philosophy: "", quote: "", quoteSrc: "", works: [], radius: 6 },
+    { id: "morris_theodor", name: "莫里斯与西奥多", namePt: "Morris & Theodor", type: "minor", lang: "pt", bio: "《闲谈者》合作者，字谜作者。", style: "", philosophy: "", quote: "", quoteSrc: "", works: [], radius: 6 },
+    { id: "navas", name: "纳瓦斯", namePt: "Navas", type: "minor", lang: "pt", bio: "将霍勒斯·詹姆斯的《费伯》译为葡语。", style: "", philosophy: "", quote: "", quoteSrc: "", works: [], radius: 6 },
+    { id: "nuno_reis", name: "努诺·雷伊斯", namePt: "Nuno Reis", type: "minor", lang: "pt", bio: "里卡多·雷伊斯之子。", style: "", philosophy: "", quote: "", quoteSrc: "", works: [], radius: 8 },
+    { id: "nympha", name: "黑色宁芙", namePt: "Nympha Negra", type: "minor", lang: "pt", bio: "《闲谈者》合作者，字谜作者。", style: "", philosophy: "", quote: "", quoteSrc: "", works: [], radius: 6 },
+    { id: "parry", name: "帕里", namePt: "Parry", type: "minor", lang: "pt", bio: "《闲谈者》合作者，字谜作者。", style: "", philosophy: "", quote: "", quoteSrc: "", works: [], radius: 6 },
+    { id: "ze_pad", name: "佩德罗·达·席尔瓦·萨勒斯", namePt: "Pedro da Silva Salles / Zé Pad", type: "minor", lang: "pt", bio: "《闲谈者》轶事栏目作者与主编。", style: "", philosophy: "", quote: "", quoteSrc: "", works: [], radius: 6 },
+    { id: "pero_botelho", name: "佩罗·博特略", namePt: "Pêro Botelho", type: "minor", lang: "pt", bio: "短篇小说作者与书信作者；阿比利奥·夸雷斯马等角色的灵感来源。", style: "", philosophy: "", quote: "", quoteSrc: "", works: [], radius: 7 },
+    { id: "pip", name: "皮普", namePt: "Pip", type: "minor", lang: "pt", bio: "诗人、幽默轶事作者，潘克拉西奥博士的前身。", style: "", philosophy: "", quote: "", quoteSrc: "", works: [], radius: 6 },
+    { id: "pipa_gomes", name: "皮帕·戈麦斯", namePt: "Pipa Gomes", type: "minor", lang: "pt", bio: "《磷光》合作者。", style: "", philosophy: "", quote: "", quoteSrc: "", works: [], radius: 6 },
+    { id: "trochee", name: "特罗凯教授", namePt: "Professor Trochee", type: "minor", lang: "en", bio: "为年轻诗人撰写幽默建议的随笔作者。", style: "", philosophy: "", quote: "", quoteSrc: "", works: [], radius: 6 },
+    { id: "rev_wyatt", name: "沃尔特·怀亚特牧师", namePt: "Rev. Walter Wyatt", type: "minor", lang: "en", bio: "或为弗雷德里克·怀亚特之兄。", style: "", philosophy: "", quote: "", quoteSrc: "", works: [], radius: 6 },
+    { id: "sableton", name: "萨布勒顿-凯", namePt: "Sableton-Kay", type: "minor", lang: "pt", bio: "《闲谈者》中预告的小说《空战》作者。", style: "", philosophy: "", quote: "", quoteSrc: "", works: [], radius: 6 },
+    { id: "sher_henay", name: "谢尔·赫内", namePt: "Sher Henay", type: "minor", lang: "en", bio: "英语轰动主义诗选编者与序言作者。", style: "", philosophy: "", quote: "", quoteSrc: "", works: [], radius: 6 },
+    { id: "tagus", name: "塔古斯", namePt: "Tagus", type: "minor", lang: "en", bio: "曾为南非德班《纳塔尔水星报》撰稿。", style: "", philosophy: "", quote: "", quoteSrc: "", works: [], radius: 6 },
+    { id: "torquato_rey", name: "托尔夸托·丰塞卡·门德斯·达·库尼亚·雷伊", namePt: "Torquato Fonseca Mendes da Cunha Rey", type: "minor", lang: "pt", bio: "已故作家，佩索阿决定出版其《潘塔莱昂》一文。", style: "", philosophy: "", quote: "", quoteSrc: "", works: [], radius: 6 },
+    { id: "uncle_pork", name: "庞克叔叔", namePt: "Uncle Pork", type: "minor", lang: "pt", bio: "受佩罗·博特略启发的侦探故事角色。", style: "", philosophy: "", quote: "", quoteSrc: "", works: [], radius: 6 },
+    { id: "urban", name: "乌尔班·阿库尔西奥", namePt: "Urban Accursio", type: "minor", lang: "pt", bio: "《闲谈者》合作者，字谜作者。", style: "", philosophy: "", quote: "", quoteSrc: "", works: [], radius: 6 },
+    { id: "vadooisf", name: "瓦杜伊夫", namePt: "Vadooisf", type: "minor", lang: "pt", bio: "诗人（身份存疑）。", style: "", philosophy: "", quote: "", quoteSrc: "", works: [], radius: 6 },
+    { id: "wardour", name: "沃杜尔", namePt: "Wardour", type: "minor", lang: "en", bio: "诗人。", style: "", philosophy: "", quote: "", quoteSrc: "", works: [], radius: 6 },
+    { id: "willyam_esk", name: "威廉·林克斯·埃斯克", namePt: "Willyam Links Esk", type: "minor", lang: "en", bio: "1905年4月13日一封英语信的署名者。", style: "", philosophy: "", quote: "", quoteSrc: "", works: [], radius: 6 }
   ],
 
   links: [
@@ -842,9 +914,78 @@ const pessoaData = {
     { source: "pessoa", target: "crosse", label: "创造者", type: "creator" },
     { source: "pessoa", target: "sousa", label: "创造者", type: "creator" },
     { source: "pessoa", target: "pantaleao", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "faustino", label: "少年异名", type: "creator" },
+    { source: "pessoa", target: "carlos_otto", label: "创造者", type: "creator" },
+    { source: "pessoa", target: "faustino_antunes", label: "创造者", type: "creator" },
     { source: "pessoa", target: "c_search", label: "创造者", type: "creator" },
-    { source: "pessoa", target: "ii_crosse", label: "创造者", type: "creator" }
+    { source: "pessoa", target: "ii_crosse", label: "创造者", type: "creator" },
+    { source: "pessoa", target: "angard", label: "创造者", type: "creator" },
+    { source: "pessoa", target: "aa_crosse", label: "创造者", type: "creator" },
+    { source: "pessoa", target: "moscow", label: "创造者", type: "creator" },
+    { source: "pessoa", target: "gomes", label: "创造者", type: "creator" },
+    { source: "pessoa", target: "seabra", label: "创造者", type: "creator" },
+    { source: "pessoa", target: "cecilia", label: "创造者", type: "creator" },
+    { source: "pessoa", target: "pasteur", label: "创造者", type: "creator" },
+    { source: "pessoa", target: "merrick", label: "创造者", type: "creator" },
+    { source: "pessoa", target: "diabo_azul", label: "创造者", type: "creator" },
+    { source: "pessoa", target: "diniz", label: "创造者", type: "creator" },
+    { source: "pessoa", target: "dr_caloiro", label: "创造者", type: "creator" },
+    { source: "pessoa", target: "dr_turnips", label: "创造者", type: "creator" },
+    { source: "pessoa", target: "dr_pancracio", label: "创造者", type: "creator" },
+    { source: "pessoa", target: "lanca", label: "创造者", type: "creator" },
+    { source: "pessoa", target: "pasha", label: "创造者", type: "creator" },
+    { source: "pessoa", target: "federico_reis", label: "创造者", type: "creator" },
+    { source: "pessoa", target: "frederick_wyatt", label: "创造者", type: "creator" },
+    { source: "pessoa", target: "keene", label: "创造者", type: "creator" },
+    { source: "pessoa", target: "galliao", label: "创造者", type: "creator" },
+    { source: "pessoa", target: "gervasio_guedes", label: "创造者", type: "creator" },
+    { source: "pessoa", target: "henry_more", label: "创造者", type: "creator" },
+    { source: "pessoa", target: "prosit", label: "创造者", type: "creator" },
+    { source: "pessoa", target: "horace_faber", label: "创造者", type: "creator" },
+    { source: "pessoa", target: "ibis", label: "创造者", type: "creator" },
+    { source: "pessoa", target: "inspector_guedes", label: "创造者", type: "creator" },
+    { source: "pessoa", target: "hyslop", label: "创造者", type: "creator" },
+    { source: "pessoa", target: "joao_caeiro", label: "创造者", type: "creator" },
+    { source: "pessoa", target: "craveiro", label: "创造者", type: "creator" },
+    { source: "pessoa", target: "moura_costa", label: "创造者", type: "creator" },
+    { source: "pessoa", target: "rasteiro", label: "创造者", type: "creator" },
+    { source: "pessoa", target: "scicio", label: "创造者", type: "creator" },
+    { source: "pessoa", target: "lucas_merrick", label: "创造者", type: "creator" },
+    { source: "pessoa", target: "congo", label: "创造者", type: "creator" },
+    { source: "pessoa", target: "kisch", label: "创造者", type: "creator" },
+    { source: "pessoa", target: "michael_otto", label: "创造者", type: "creator" },
+    { source: "pessoa", target: "morris_theodor", label: "创造者", type: "creator" },
+    { source: "pessoa", target: "navas", label: "创造者", type: "creator" },
+    { source: "pessoa", target: "nuno_reis", label: "创造者", type: "creator" },
+    { source: "pessoa", target: "nympha", label: "创造者", type: "creator" },
+    { source: "pessoa", target: "parry", label: "创造者", type: "creator" },
+    { source: "pessoa", target: "ze_pad", label: "创造者", type: "creator" },
+    { source: "pessoa", target: "pero_botelho", label: "创造者", type: "creator" },
+    { source: "pessoa", target: "pip", label: "创造者", type: "creator" },
+    { source: "pessoa", target: "pipa_gomes", label: "创造者", type: "creator" },
+    { source: "pessoa", target: "trochee", label: "创造者", type: "creator" },
+    { source: "pessoa", target: "rev_wyatt", label: "创造者", type: "creator" },
+    { source: "pessoa", target: "sableton", label: "创造者", type: "creator" },
+    { source: "pessoa", target: "sher_henay", label: "创造者", type: "creator" },
+    { source: "pessoa", target: "tagus", label: "创造者", type: "creator" },
+    { source: "pessoa", target: "torquato_rey", label: "创造者", type: "creator" },
+    { source: "pessoa", target: "uncle_pork", label: "创造者", type: "creator" },
+    { source: "pessoa", target: "urban", label: "创造者", type: "creator" },
+    { source: "pessoa", target: "vadooisf", label: "创造者", type: "creator" },
+    { source: "pessoa", target: "wardour", label: "创造者", type: "creator" },
+    { source: "pessoa", target: "willyam_esk", label: "创造者", type: "creator" },
+    { source: "pessoa", target: "alfred_wyatt", label: "创造者", type: "creator" },
+    { source: "caeiro", target: "joao_caeiro", label: "父→子", type: "family" },
+    { source: "reis", target: "nuno_reis", label: "父→子", type: "family" },
+    { source: "reis", target: "federico_reis", label: "兄弟", type: "family" },
+    { source: "merrick", target: "lucas_merrick", label: "兄弟", type: "family" },
+    { source: "carlos_otto", target: "michael_otto", label: "兄弟", type: "family" },
+    { source: "frederick_wyatt", target: "alfred_wyatt", label: "兄弟", type: "family" },
+    { source: "frederick_wyatt", target: "rev_wyatt", label: "兄弟", type: "family" },
+    { source: "pero_botelho", target: "quaresma", label: "灵感来源", type: "literary" },
+    { source: "pero_botelho", target: "inspector_guedes", label: "灵感来源", type: "literary" },
+    { source: "pero_botelho", target: "uncle_pork", label: "灵感来源", type: "literary" },
+    { source: "mora", target: "pasteur", label: "被翻译", type: "literary" },
+    { source: "horace_faber", target: "navas", label: "被翻译", type: "literary" }
   ]
 };
 
@@ -921,13 +1062,13 @@ svg.call(zoom);
 
 const simulation = d3.forceSimulation(pessoaData.nodes)
   .force("link", d3.forceLink(pessoaData.links).id(d => d.id).distance(d => {
-    if (d.type === "master") return 120;
-    if (d.type === "creator") return 180;
-    return 150;
+    if (d.type === "master") return 90;
+    if (d.type === "creator") return 110;
+    return 100;
   }))
-  .force("charge", d3.forceManyBody().strength(d => d.type === "ortonym" ? -800 : d.type === "major" ? -400 : -200))
+  .force("charge", d3.forceManyBody().strength(d => d.type === "ortonym" ? -600 : d.type === "major" ? -350 : d.type === "semi" ? -180 : -80))
   .force("center", d3.forceCenter(width / 2, height / 2))
-  .force("collision", d3.forceCollide().radius(d => d.radius + 15));
+  .force("collision", d3.forceCollide().radius(d => Math.min(d.radius + 12, 20)));
 
 const linkGroup = g.append("g").attr("class", "links");
 const linkLines = linkGroup.selectAll("line")
@@ -1051,7 +1192,7 @@ svg.on("click", () => {
 
 function openPanel(d) {
   const typeLabel = { ortonym: "正名 Ortónimo", major: "主要异名者 Heterónimo Principal", semi: "半异名者 Semi-Heterónimo", minor: "次要异名者 Heterónimo Menor" };
-  const langLabel = { pt: "葡萄牙语", en: "英语", fr: "法语" };
+  const langLabel = { pt: "葡萄牙语", en: "英语", fr: "法语", de: "德语" };
   const tagClass = { ortonym: "tag-ortonym", major: "tag-major", semi: "tag-semi", minor: "tag-minor" };
 
   let html = `
@@ -1084,19 +1225,23 @@ function openPanel(d) {
     </div>
   `;
 
-  html += `
+  if (d.style) {
+    html += `
     <div class="panel-section">
       <div class="section-title">写作风格</div>
       <div class="section-text">${d.style}</div>
     </div>
   `;
+  }
 
-  html += `
+  if (d.philosophy) {
+    html += `
     <div class="panel-section">
       <div class="section-title">哲学 / 世界观</div>
       <div class="section-text">${d.philosophy}</div>
     </div>
   `;
+  }
 
   if (d.quote) {
     html += `
