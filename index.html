@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>佩索阿宇宙 · Universo Pessoa</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Serif+SC:wght@300;400;600&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0a0a12;
+    color: #d4cfc4;
+    font-family: 'Noto Serif SC', 'Cormorant Garamond', serif;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+  }
+
+  #canvas-container {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 1;
+  }
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .title-bar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 20px 30px;
+    background: linear-gradient(to bottom, rgba(10,10,18,0.95) 0%, rgba(10,10,18,0) 100%);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    pointer-events: none;
+  }
+
+  .title-bar > * { pointer-events: auto; }
+
+  .main-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 300;
+    letter-spacing: 4px;
+    color: #e8e0d0;
+  }
+
+  .main-title span {
+    font-size: 14px;
+    letter-spacing: 2px;
+    opacity: 0.5;
+    display: block;
+    margin-top: 4px;
+  }
+
+  .controls {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    max-width: 520px;
+  }
+
+  .filter-btn {
+    padding: 6px 14px;
+    border: 1px solid rgba(200,190,170,0.2);
+    border-radius: 20px;
+    background: rgba(20,20,30,0.6);
+    color: #b0a890;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-family: 'Noto Serif SC', serif;
+    backdrop-filter: blur(10px);
+  }
+
+  .filter-btn:hover {
+    border-color: rgba(200,190,170,0.5);
+    color: #e8e0d0;
+  }
+
+  .filter-btn.active {
+    background: rgba(200,190,170,0.15);
+    border-color: rgba(200,190,170,0.5);
+    color: #e8e0d0;
+  }
+
+  .detail-panel {
+    position: fixed;
+    right: -460px;
+    top: 0;
+    width: 440px;
+    height: 100vh;
+    background: linear-gradient(135deg, rgba(15,15,25,0.97) 0%, rgba(20,18,30,0.97) 100%);
+    border-left: 1px solid rgba(200,190,170,0.1);
+    z-index: 200;
+    transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow-y: auto;
+    backdrop-filter: blur(20px);
+  }
+
+  .detail-panel.open { right: 0; }
+
+  .detail-panel::-webkit-scrollbar { width: 4px; }
+  .detail-panel::-webkit-scrollbar-track { background: transparent; }
+  .detail-panel::-webkit-scrollbar-thumb { background: rgba(200,190,170,0.2); border-radius: 2px; }
+
+  .panel-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 32px;
+    height: 32px;
+    border: 1px solid rgba(200,190,170,0.2);
+    border-radius: 50%;
+    background: transparent;
+    color: #b0a890;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    transition: all 0.3s;
+    z-index: 10;
+  }
+
+  .panel-close:hover {
+    border-color: rgba(200,190,170,0.5);
+    color: #e8e0d0;
+  }
+
+  .panel-header {
+    padding: 40px 30px 20px;
+    border-bottom: 1px solid rgba(200,190,170,0.08);
+  }
+
+  .panel-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    font-weight: 300;
+    color: #e8e0d0;
+    margin-bottom: 4px;
+  }
+
+  .panel-name-pt {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    font-weight: 300;
+    font-style: italic;
+    color: rgba(200,190,170,0.5);
+    margin-bottom: 10px;
+  }
+
+  .panel-tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .panel-tag {
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    letter-spacing: 1px;
+  }
+
+  .tag-major { background: rgba(180,140,60,0.15); color: #c8a84a; border: 1px solid rgba(180,140,60,0.3); }
+  .tag-semi { background: rgba(100,140,180,0.15); color: #6a9cc8; border: 1px solid rgba(100,140,180,0.3); }
+  .tag-minor { background: rgba(140,100,160,0.15); color: #a882b8; border: 1px solid rgba(140,100,160,0.3); }
+  .tag-ortonym { background: rgba(200,180,140,0.15); color: #d4c498; border: 1px solid rgba(200,180,140,0.3); }
+  .tag-lang { background: rgba(80,160,120,0.12); color: #6ab890; border: 1px solid rgba(80,160,120,0.25); }
+
+  .panel-section {
+    padding: 20px 30px;
+    border-bottom: 1px solid rgba(200,190,170,0.06);
+  }
+
+  .panel-section:last-child { border-bottom: none; }
+
+  .section-title {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(200,190,170,0.4);
+    margin-bottom: 12px;
+  }
+
+  .section-text {
+    font-size: 14px;
+    line-height: 1.8;
+    color: #c0b8a8;
+  }
+
+  .section-text em {
+    color: #d4c498;
+    font-style: italic;
+  }
+
+  .works-list {
+    list-style: none;
+  }
+
+  .works-list li {
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(200,190,170,0.04);
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+
+  .works-list li:last-child { border-bottom: none; }
+
+  .work-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    font-style: italic;
+    color: #d4c498;
+  }
+
+  .work-year {
+    font-size: 11px;
+    color: rgba(200,190,170,0.4);
+    white-space: nowrap;
+  }
+
+  .work-desc {
+    font-size: 12px;
+    color: rgba(200,190,170,0.5);
+    margin-top: 2px;
+  }
+
+  .quote-block {
+    padding: 16px 20px;
+    border-left: 2px solid rgba(200,180,140,0.3);
+    margin: 8px 0;
+    background: rgba(200,180,140,0.03);
+    font-style: italic;
+    font-size: 14px;
+    line-height: 1.8;
+    color: #c8b888;
+  }
+
+  .quote-block .quote-src {
+    display: block;
+    margin-top: 8px;
+    font-style: normal;
+    font-size: 11px;
+    color: rgba(200,190,170,0.4);
+  }
+
+  .relations-list {
+    list-style: none;
+  }
+
+  .relations-list li {
+    padding: 6px 0;
+    font-size: 13px;
+    color: #b0a890;
+  }
+
+  .relations-list .rel-target {
+    color: #d4c498;
+    cursor: pointer;
+    text-decoration: underline;
+    text-decoration-color: rgba(200,180,140,0.3);
+    text-underline-offset: 3px;
+  }
+
+  .relations-list .rel-target:hover {
+    text-decoration-color: rgba(200,180,140,0.7);
+  }
+
+  .tooltip {
+    position: absolute;
+    padding: 8px 14px;
+    background: rgba(20,18,30,0.95);
+    border: 1px solid rgba(200,190,170,0.2);
+    border-radius: 6px;
+    font-size: 13px;
+    color: #d4cfc4;
+    pointer-events: none;
+    z-index: 300;
+    opacity: 0;
+    transition: opacity 0.2s;
+    backdrop-filter: blur(10px);
+    font-family: 'Noto Serif SC', 'Cormorant Garamond', serif;
+  }
+
+  .legend {
+    position: fixed;
+    bottom: 20px;
+    left: 30px;
+    z-index: 100;
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    font-size: 11px;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: rgba(200,190,170,0.5);
+  }
+
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+
+  .bottom-hint {
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+    z-index: 100;
+    font-size: 11px;
+    color: rgba(200,190,170,0.3);
+    letter-spacing: 1px;
+  }
+
+  .link-label {
+    font-size: 10px;
+    fill: rgba(200,190,170,0.35);
+    text-anchor: middle;
+    pointer-events: none;
+    font-family: 'Noto Serif SC', serif;
+  }
+
+  @keyframes pulseGlow {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 0.8; }
+  }
+</style>
+</head>
+<body>
+
+<div class="title-bar">
+  <div class="main-title">
+    UNIVERSO PESSOA
+    <span>费尔南多·佩索阿异名宇宙 · 交互星图</span>
+  </div>
+  <div class="controls">
+    <button class="filter-btn active" data-filter="all">全部</button>
+    <button class="filter-btn" data-filter="major">主要异名者</button>
+    <button class="filter-btn" data-filter="semi">半异名者</button>
+    <button class="filter-btn" data-filter="minor">次要异名者</button>
+    <button class="filter-btn" data-filter="pt">葡语</button>
+    <button class="filter-btn" data-filter="en">英语</button>
+    <button class="filter-btn" data-filter="fr">法语</button>
+  </div>
+</div>
+
+<div id="canvas-container"></div>
+
+<div class="detail-panel" id="detailPanel">
+  <button class="panel-close" id="panelClose">×</button>
+  <div id="panelContent"></div>
+</div>
+
+<div class="tooltip" id="tooltip"></div>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:#d4c498"></div>正名 (Ortónimo)</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#c8a84a"></div>主要异名者</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#6a9cc8"></div>半异名者</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#a882b8"></div>次要异名者</div>
+  <div class="legend-item"><div class="legend-dot" style="background:rgba(200,190,170,0.15); border:1px solid rgba(200,190,170,0.3)"></div>连线 = 关系</div>
+</div>
+
+<div class="bottom-hint">拖拽移动 · 滚轮缩放 · 点击探索</div>
+
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script>
+const pessoaData = {
+  nodes: [
+    {
+      id: "pessoa",
+      name: "费尔南多·佩索阿",
+      namePt: "Fernando Pessoa",
+      type: "ortonym",
+      lang: "pt",
+      born: "1888年6月13日，里斯本",
+      died: "1935年11月30日，里斯本",
+      bio: "葡萄牙诗人、作家、文学评论家、翻译家、出版商和哲学家。20世纪最伟大的葡语诗人，也是世界文学史上最独特的存在之一。他在一只箱子中留下了超过25,000份手稿，创造了超过70个异名者，每个都有独立的传记、写作风格、世界观甚至星盘。",
+      style: "以正名写作时，风格偏向象征主义与神秘主义，沉浸于葡萄牙民族身份与命运的思考。诗歌带有精致的音乐性和梦幻般的忧郁。",
+      philosophy: "「假装是对感受的最完全的理解」——佩索阿的核心在于通过分裂自我来认识自我，通过创造他者来理解存在。他是所有异名者的造物主，但也承认自己可能只是他们之中最不完整的一个。",
+      quote: "我是一座把自己梦成了许多人的城市。",
+      quoteSrc: "《不安之书》",
+      works: [
+        { title: "Mensagem（使命）", year: "1934", desc: "生前唯一出版的葡语诗集，以航海大发现为母题，探索葡萄牙的神秘命运" },
+        { title: "35 Sonnets", year: "1918", desc: "以英语写作的十四行诗集" },
+        { title: "Antinous", year: "1918", desc: "英语长诗，关于哈德良皇帝与安提诺乌斯" },
+        { title: "English Poems I-II, III", year: "1921", desc: "英语诗歌合集" },
+        { title: "Erostratus", year: "未刊", desc: "英语随笔" },
+        { title: "Sobre Portugal（关于葡萄牙）", year: "遗稿", desc: "关于葡萄牙民族性格的散文" },
+        { title: "Páginas de Estética（美学篇章）", year: "遗稿", desc: "美学理论文章" },
+        { title: "Poesias（诗集）", year: "1942遗稿", desc: "正名名义下的葡语诗歌总集" }
+      ],
+      radius: 28
+    },
+    {
+      id: "caeiro",
+      name: "阿尔贝托·卡埃罗",
+      namePt: "Alberto Caeiro",
+      type: "major",
+      lang: "pt",
+      born: "1889年4月16日，里斯本",
+      died: "1915年（肺结核）",
+      bio: "佩索阿异名体系中的「大师」(O Mestre)。出生于里斯本，大部分时间在乡间由一位年迈姑妈抚养。几乎没有受过正规教育，中等身材，金发碧眼。在所有异名者中，卡埃罗具有至高的地位——雷伊斯、坎波斯甚至佩索阿本人都自认为是他的弟子。",
+      style: "直接、简朴、反修辞。使用自由诗体，拒绝韵律和格律的约束。语言口语化，回避一切隐喻和抽象思辨。他的诗就像呼吸一样自然——事物就是事物本身。",
+      philosophy: "绝对的感觉主义/现象学自然主义。万物只是它所呈现的样子：「看就是理解」。他反对一切形而上学、宗教、哲学体系，认为「思考是一种眼病」。他追求一种「感觉的异教」，回归事物的原初纯净。",
+      quote: "我没有哲学：我有感官。\n如果我谈论自然，并非因为我知道它是什么，\n而是因为我爱它，而我之所以爱它\n是因为爱的人永远不知道自己爱的是什么\n也不知道为什么爱，也不知道什么是爱。",
+      quoteSrc: "《牧羊人》第二首",
+      works: [
+        { title: "O Guardador de Rebanhos（牧羊人）", year: "1914", desc: "49首诗组成的组诗，卡埃罗的核心作品，包括著名的第八首「基督再临」" },
+        { title: "O Pastor Amoroso（恋爱中的牧羊人）", year: "1914后", desc: "一组短诗，描绘卡埃罗罕见的爱情体验" },
+        { title: "Poemas Inconjuntos（散落的诗）", year: "1913-1915", desc: "未归入前两部的散落诗篇" }
+      ],
+      radius: 24
+    },
+    {
+      id: "reis",
+      name: "里卡多·雷伊斯",
+      namePt: "Ricardo Reis",
+      type: "major",
+      lang: "pt",
+      born: "1887年9月19日，波尔图",
+      died: "约1936年后（流亡巴西）",
+      bio: "在耶稣会学校接受古典教育，拉丁语学者。自称「拉丁式异教徒」。1919年因政治原因（君主主义者）自我流放至巴西。矮小、纤瘦、略微驼背。佩索阿称他为「一个被造成了贺拉斯而用葡语写作的希腊人」。萨拉马戈后来在《里卡多·雷伊斯去世的那一年》中让他回到了里斯本。",
+      style: "严格的古典主义。使用莎孚体、阿尔凯奥斯体等古典格律，语言高度凝练。深受贺拉斯颂诗影响——及时行乐（carpe diem）的主题反复出现，但染上了一层深沉的宿命论色彩。",
+      philosophy: "伊壁鸠鲁—斯多葛混合体。接受命运的不可抗拒（Fatum），追求宁静平和（ataraxia），在短暂中寻求永恒的美。他相信异教诸神但不指望它们施恩。「让我们坐在太阳下/直到太阳不再照耀」——在必死性面前保持庄重的平静。",
+      quote: "我什么也不想要。诸神给了我一切。\n但是啊，我错了，他们什么也没给。\n我什么也不想要，这就是他们给我的一切。",
+      quoteSrc: "雷伊斯颂诗",
+      works: [
+        { title: "Odes de Ricardo Reis（雷伊斯颂诗）", year: "1914-1935", desc: "以贺拉斯风格写成的颂诗集，近250首，主题围绕命运、死亡、短暂与平静" },
+        { title: "Prosa de Ricardo Reis（雷伊斯散文）", year: "遗稿", desc: "包括文学评论和美学论述" }
+      ],
+      radius: 22
+    },
+    {
+      id: "campos",
+      name: "阿尔瓦罗·德·坎波斯",
+      namePt: "Álvaro de Campos",
+      type: "major",
+      lang: "pt",
+      born: "1890年10月15日，塔维拉（阿尔加维）",
+      died: "不详",
+      bio: "苏格兰留学的造船工程师。高瘦、微微驼背，单片眼镜，好似一位葡萄牙犹太人。他是异名者中最激情澎湃、最矛盾、也最「现代」的一个。从早期的颓废主义，到激进的未来主义，再到深刻的虚无主义——他经历了最完整的灵魂变迁。佩索阿戏称他「什么都不是的工程师」。",
+      style: "早期受象征主义/颓废派影响（《鸦片吸食者》），中期爆发出惠特曼式的宇宙感觉主义（感觉主义宣言），长句奔涌、排比狂放（《海事颂》《凯旋颂》），晚期转向内省、疲倦、存在主义式的虚无。是佩索阿所有异名者中最敢于\"嚎叫\"的声音。",
+      philosophy: "感觉主义（Sensacionismo）的理论代表。早期宣称「感受一切/以一切方式感受」，追求将所有感觉推向极限。后期陷入深刻的幻灭——一切感觉终归虚无。他的轨迹从肯定滑向否定，从狂喜滑向疲倦，最终落入那间著名的烟草铺。",
+      quote: "我什么也不是。\n我永远也不会成为什么。\n我无法想要成为什么。\n除此之外，我把世界的所有梦想都装在心里。",
+      quoteSrc: "《烟草铺》开头",
+      works: [
+        { title: "Opiário（鸦片吸食者）", year: "1914", desc: "颓废主义长诗，写于前往东方的航途中" },
+        { title: "Ode Triunfal（凯旋颂）", year: "1914", desc: "未来主义杰作，歌颂机器、速度和现代文明" },
+        { title: "Ode Marítima（海事颂）", year: "1915", desc: "最长的诗作之一，关于大海、暴力与感官狂欢" },
+        { title: "Tabacaria（烟草铺）", year: "1928", desc: "被誉为20世纪最伟大的诗之一，关于存在的虚无" },
+        { title: "Lisbon Revisited (1923)", year: "1923", desc: "重访里斯本组诗之一" },
+        { title: "Lisbon Revisited (1926)", year: "1926", desc: "重访里斯本组诗之二，更深的绝望" },
+        { title: "Notas para a Recordação do meu Mestre Caeiro（回忆我的大师卡埃罗的笔记）", year: "遗稿", desc: "关于卡埃罗的回忆散文" },
+        { title: "Ultimatum", year: "1917", desc: "在《Portugal Futurista》发表的宣言式散文" }
+      ],
+      radius: 24
+    },
+    {
+      id: "soares",
+      name: "贝尔纳多·索阿雷斯",
+      namePt: "Bernardo Soares",
+      type: "semi",
+      lang: "pt",
+      born: "不详（约与佩索阿同时代）",
+      died: "不详",
+      bio: "一位居住在里斯本道拉多雷斯街（Rua dos Douradores）的助理簿记员。独身，沉默寡言，几乎没有朋友。佩索阿称他为「半异名者」——因为他的人格并不与佩索阿完全不同，而只是佩索阿本人在去除了理性和情感之后的「变形」。他是箱子里最大的谜。",
+      style: "散文诗、日记体片段。语言极度精致、内省、梦幻般的意识流。句子绵长却清澈，充满悖论和自我矛盾。每一段都像是在梦与醒之间写下的——关于一个不存在的人的真实日记。",
+      philosophy: "梦幻唯我论。现实不如想象真实，生活不如文学完整。他不旅行因为「旅行者不是到达的人」。他把在道拉多雷斯街办公室的日常升华为一部关于无事发生的宇宙史诗。存在即梦境，写作即唯一的清醒。",
+      quote: "文学，就像一切艺术，是一种承认：承认生活不够。",
+      quoteSrc: "《不安之书》",
+      works: [
+        { title: "Livro do Desassossego（不安之书）", year: "1913-1935", desc: "未完成的散文诗日记，20世纪最伟大的散文作品之一。由数百个片段组成，佩索阿去世后在箱子中发现" }
+      ],
+      radius: 22
+    },
+    {
+      id: "search",
+      name: "亚历山大·瑟奇",
+      namePt: "Alexander Search",
+      type: "minor",
+      lang: "en",
+      born: "1888年6月13日",
+      died: "不详",
+      bio: "佩索阿最早的异名者之一，与佩索阿同日出生。英语诗人，在佩索阿少年时期（在南非德班成长时）就已活跃。他的出现比卡埃罗、雷伊斯和坎波斯都要早得多。",
+      style: "英语浪漫主义与象征主义的混合。受莎士比亚、弥尔顿和济慈影响。相比后来的异名者，风格更加传统。",
+      philosophy: "关注自我意识的黑暗面——疯狂、罪恶、死亡。比佩索阿的其他创造更加阴郁和内省。",
+      quote: "I am not I, even in my own account of myself.",
+      quoteSrc: "Alexander Search 诗稿",
+      works: [
+        { title: "Poems of Alexander Search", year: "1903-1910", desc: "英语诗歌，多为少年时期在德班创作" },
+        { title: "Agony", year: "约1907", desc: "探索精神痛苦的诗组" }
+      ],
+      radius: 14
+    },
+    {
+      id: "mora",
+      name: "安东尼奥·莫拉",
+      namePt: "António Mora",
+      type: "minor",
+      lang: "pt",
+      born: "不详",
+      died: "不详（据说住进了精神病院）",
+      bio: "哲学家。卡埃罗思想的系统化阐释者。据说是一位住在精神病院中的哲学家。他的任务是为卡埃罗的直觉式异教主义提供理论基础。",
+      style: "学术散文，论述体。严谨、系统化。",
+      philosophy: "新异教主义（Neopaganismo）的理论家。他认为基督教是人类精神的一次「疾病」，而回归异教的多神感觉论是治愈之道。",
+      quote: "",
+      quoteSrc: "",
+      works: [
+        { title: "O Regresso dos Deuses（诸神归来）", year: "遗稿", desc: "新异教主义哲学论著" },
+        { title: "Prolegómenos a uma Reformação do Paganismo（异教改革序论）", year: "遗稿", desc: "系统性的异教哲学体系" }
+      ],
+      radius: 13
+    },
+    {
+      id: "teive",
+      name: "特伊维男爵",
+      namePt: "Barão de Teive",
+      type: "semi",
+      lang: "pt",
+      born: "不详",
+      died: "自杀",
+      bio: "一位贵族出身的知识分子，在完成自己唯一的著作后选择了自杀。佩索阿称他为另一位「半异名者」——与索阿雷斯类似但性格更加极端。如果说索阿雷斯是无力行动的梦想者，特伊维则是有力量但拒绝行动的理性主义者。",
+      style: "精练的散文。逻辑严密，带有贵族式的冷淡和自毁性的完美主义。",
+      philosophy: "极端的审美完美主义导致了行动的彻底瘫痪。他因为无法达到自己的标准而销毁了所有作品，最终也销毁了自己。",
+      quote: "我没有勇气拥有风格。",
+      quoteSrc: "《苦修者的教育》",
+      works: [
+        { title: "A Educação do Estóico（苦修者的教育）", year: "遗稿", desc: "特伊维的唯一著作，一部关于绝望与完美主义的自白录" }
+      ],
+      radius: 14
+    },
+    {
+      id: "guedes",
+      name: "维森特·盖德斯",
+      namePt: "Vicente Guedes",
+      type: "semi",
+      lang: "pt",
+      born: "不详",
+      died: "不详",
+      bio: "《不安之书》最初的「作者」（早期版本）。后来佩索阿将这个角色转移给了贝尔纳多·索阿雷斯。盖德斯的版本更加象征主义和唯美主义，而索阿雷斯的版本更加日常和内省。",
+      style: "高度唯美的象征主义散文。比索阿雷斯更加华丽和文学化。",
+      philosophy: "唯美—颓废主义。现实世界是一种美学失败。",
+      quote: "",
+      quoteSrc: "",
+      works: [
+        { title: "Livro do Desassossego（不安之书·早期版本）", year: "1913-约1920", desc: "《不安之书》的早期片段，后由索阿雷斯接续" }
+      ],
+      radius: 12
+    },
+    {
+      id: "crosse",
+      name: "托马斯·克洛斯",
+      namePt: "Thomas Crosse",
+      type: "minor",
+      lang: "en",
+      born: "不详",
+      died: "不详",
+      bio: "英国文学评论家和翻译家。他的角色是向英语世界介绍和翻译卡埃罗的作品。佩索阿通过他来构建卡埃罗在「国际」上的接受史。",
+      style: "学术批评散文，翻译论文。",
+      philosophy: "文学国际主义——认为卡埃罗是可以与惠特曼比肩的天才。",
+      quote: "",
+      quoteSrc: "",
+      works: [
+        { title: "The Poetry of Alberto Caeiro", year: "遗稿", desc: "关于卡埃罗诗歌的英语评论" },
+        { title: "Caeiro英译", year: "遗稿", desc: "将卡埃罗诗歌翻译为英语" }
+      ],
+      radius: 10
+    },
+    {
+      id: "ii_crosse",
+      name: "I.I. 克洛斯",
+      namePt: "I.I. Crosse",
+      type: "minor",
+      lang: "en",
+      born: "不详",
+      died: "不详",
+      bio: "托马斯·克洛斯的兄弟。也是英语写作者。佩索阿借他来扩展异名者之间的社交网络。",
+      style: "英语随笔。",
+      philosophy: "不详",
+      quote: "",
+      quoteSrc: "",
+      works: [],
+      radius: 8
+    },
+    {
+      id: "meluret",
+      name: "让·瑟尔·德·梅吕雷",
+      namePt: "Jean Seul de Méluret",
+      type: "minor",
+      lang: "fr",
+      born: "不详",
+      died: "不详",
+      bio: "法语讽刺作家。佩索阿创造的唯一法语异名者，以极端讽刺的笔触批判当时的社会风俗和两性关系。名字本身就是文字游戏（Jean Seul = 「孤独的让」）。",
+      style: "法语讽刺散文，极端尖刻，黑色幽默。",
+      philosophy: "厌女主义的社会讽刺——通过极端立场来暴露社会荒谬。",
+      quote: "",
+      quoteSrc: "",
+      works: [
+        { title: "Essais de sociologie pathologique", year: "遗稿", desc: "「病理社会学随笔」——讽刺社会风俗" },
+        { title: "La France en 1950（1950年的法国）", year: "遗稿", desc: "未来主义式的讽刺预言" }
+      ],
+      radius: 11
+    },
+    {
+      id: "baldaya",
+      name: "拉斐尔·巴尔达亚",
+      namePt: "Raphael Baldaya",
+      type: "minor",
+      lang: "pt",
+      born: "不详",
+      died: "不详",
+      bio: "占星术士。佩索阿本人对占星术有深入研究，巴尔达亚是这一兴趣的异名化身。他为其他异名者制作了星盘。",
+      style: "占星学论文。",
+      philosophy: "星相决定论。相信星体运行与人类命运的对应关系。",
+      quote: "",
+      quoteSrc: "",
+      works: [
+        { title: "Tratado de Astrologia（占星术论）", year: "遗稿", desc: "占星学理论著作" },
+        { title: "异名者星盘", year: "遗稿", desc: "为卡埃罗、雷伊斯、坎波斯等人绘制的星盘" }
+      ],
+      radius: 10
+    },
+    {
+      id: "quaresma",
+      name: "阿比利奥·夸雷斯马",
+      namePt: "Abílio Quaresma",
+      type: "minor",
+      lang: "pt",
+      born: "不详",
+      died: "不详",
+      bio: "侦探小说作家。佩索阿对逻辑推理和神秘主义的双重兴趣在他身上得到了通俗文学的表达。",
+      style: "侦探推理小说。",
+      philosophy: "理性主义——相信逻辑推演可以揭示隐藏的真相。",
+      quote: "",
+      quoteSrc: "",
+      works: [
+        { title: "侦探故事集", year: "遗稿", desc: "数篇未完成的侦探推理故事" }
+      ],
+      radius: 10
+    },
+    {
+      id: "pacheco",
+      name: "科埃略·帕切科",
+      namePt: "Coelho Pacheco",
+      type: "minor",
+      lang: "pt",
+      born: "不详",
+      died: "自杀",
+      bio: "一位诗人，据说在发表一首诗后便自杀了。佩索阿用他来探索艺术与自我毁灭的关系。",
+      style: "抒情诗。",
+      philosophy: "创作即自我消耗。",
+      quote: "",
+      quoteSrc: "",
+      works: [
+        { title: "Poesia（诗歌）", year: "不详", desc: "据说只留下了极少量诗稿" }
+      ],
+      radius: 8
+    },
+    {
+      id: "maria_jose",
+      name: "玛丽亚·若泽",
+      namePt: "Maria José",
+      type: "minor",
+      lang: "pt",
+      born: "不详",
+      died: "不详",
+      bio: "一位驼背的年轻女裁缝，住在一座教堂旁边。佩索阿所有异名者中唯一的女性。她写了一封给一位年轻男子的情书——一封永远不会寄出的信。这是佩索阿最感人的创作之一。",
+      style: "书信体。口语化、情感直白、笨拙而真挚。与佩索阿所有其他精致的写作形成鲜明对比。",
+      philosophy: "爱的卑微——一种明知不可能仍然无法停止的爱。",
+      quote: "我甚至不知道他是否注意到我存在。",
+      quoteSrc: "玛丽亚·若泽的信",
+      works: [
+        { title: "Carta de Maria José（玛丽亚·若泽的信）", year: "不详", desc: "一封写给对面教堂的年轻男子的情书，佩索阿唯一的女性异名者作品" }
+      ],
+      radius: 11
+    },
+    {
+      id: "anon",
+      name: "查尔斯·罗伯特·阿农",
+      namePt: "Charles Robert Anon",
+      type: "minor",
+      lang: "en",
+      born: "不详",
+      died: "不详",
+      bio: "佩索阿少年时期在南非创造的早期英语异名者之一。名字 Anon 暗示 Anonymous（匿名者），可能是佩索阿对自我隐藏冲动的最早投射。",
+      style: "英语散文与诗歌。",
+      philosophy: "匿名性作为一种生存策略。",
+      quote: "",
+      quoteSrc: "",
+      works: [
+        { title: "杂文与诗稿", year: "约1903-1907", desc: "少年时期的英语创作" }
+      ],
+      radius: 9
+    },
+    {
+      id: "c_search",
+      name: "查尔斯·詹姆斯·瑟奇",
+      namePt: "Charles James Search",
+      type: "minor",
+      lang: "en",
+      born: "不详",
+      died: "不详",
+      bio: "亚历山大·瑟奇的表兄。在异名者的虚构社交网络中，家族关系是佩索阿构建真实感的重要手段。",
+      style: "英语写作。",
+      philosophy: "不详",
+      quote: "",
+      quoteSrc: "",
+      works: [],
+      radius: 7
+    },
+    {
+      id: "de_seul",
+      name: "切瓦利埃·德·帕",
+      namePt: "Chevalier de Pas",
+      type: "minor",
+      lang: "fr",
+      born: "不详（佩索阿6岁时创造）",
+      died: "不详",
+      bio: "佩索阿6岁时创造的第一个虚构人物！法语名字，Pas = 脚步/否定，暗示「不存在的骑士」。这是佩索阿异名冲动的最初萌芽——一个童年的想象伙伴。",
+      style: "童年书信。",
+      philosophy: "童年想象力——通过创造他者来对抗孤独。",
+      quote: "",
+      quoteSrc: "",
+      works: [
+        { title: "Cartas do Chevalier de Pas", year: "约1894", desc: "佩索阿6岁时写给自己的虚构信件" }
+      ],
+      radius: 10
+    },
+    {
+      id: "sousa",
+      name: "弗雷德里科·帕伊奥斯",
+      namePt: "Frederico Paios / Bernardo Soares的前身",
+      type: "minor",
+      lang: "pt",
+      born: "不详",
+      died: "不详",
+      bio: "散文作家，被认为是索阿雷斯/盖德斯路线上的另一个变体，是佩索阿探索自我碎片化的早期实验。",
+      style: "散文片段。",
+      philosophy: "日常生活的形而上学。",
+      quote: "",
+      quoteSrc: "",
+      works: [],
+      radius: 7
+    },
+    {
+      id: "pantaleao",
+      name: "潘塔莱昂",
+      namePt: "Pantaleão",
+      type: "minor",
+      lang: "pt",
+      born: "不详",
+      died: "不详",
+      bio: "一个极为次要的异名者，据佩索阿笔记可能与格言或箴言写作有关。",
+      style: "格言体。",
+      philosophy: "不详",
+      quote: "",
+      quoteSrc: "",
+      works: [],
+      radius: 6
+    },
+    {
+      id: "faustino",
+      name: "卡洛斯·奥托",
+      namePt: "Carlos Otto",
+      type: "minor",
+      lang: "pt",
+      born: "不详",
+      died: "不详",
+      bio: "佩索阿少年时代的异名者之一。这些早期异名者的出现证明了佩索阿的「自我分裂」是一种深层的心理需求，而非文学游戏。",
+      style: "杂文。",
+      philosophy: "不详",
+      quote: "",
+      quoteSrc: "",
+      works: [],
+      radius: 6
+    },
+    {
+      id: "faust",
+      name: "浮士德（佩索阿）",
+      namePt: "Fausto (poema dramático)",
+      type: "minor",
+      lang: "pt",
+      born: "—",
+      died: "—",
+      bio: "严格来说不是异名者，而是佩索阿以正名写作的一部未完成的戏剧长诗，但因其独特地位值得收录。这是佩索阿对歌德《浮士德》的回应——一个被意识的痛苦所吞噬的现代浮士德。",
+      style: "戏剧诗体。五步抑扬格交替自由诗。",
+      philosophy: "意识即地狱。知识不能救赎，只能加深痛苦。",
+      quote: "思考——这就是灵魂的疾病。",
+      quoteSrc: "《浮士德》手稿",
+      works: [
+        { title: "Fausto: Tragédia Subjectiva（浮士德：主观悲剧）", year: "遗稿", desc: "未完成的戏剧长诗，佩索阿对歌德浮士德的存在主义回应" }
+      ],
+      radius: 12
+    }
+  ],
+
+  links: [
+    { source: "pessoa", target: "caeiro", label: "创造者 / 弟子", type: "master" },
+    { source: "pessoa", target: "reis", label: "创造者", type: "creator" },
+    { source: "pessoa", target: "campos", label: "创造者", type: "creator" },
+    { source: "pessoa", target: "soares", label: "半异名", type: "semi" },
+    { source: "pessoa", target: "teive", label: "半异名", type: "semi" },
+    { source: "pessoa", target: "guedes", label: "半异名", type: "semi" },
+    { source: "pessoa", target: "search", label: "早期异名", type: "creator" },
+    { source: "pessoa", target: "anon", label: "童年异名", type: "creator" },
+    { source: "pessoa", target: "de_seul", label: "最早的虚构人物", type: "creator" },
+    { source: "pessoa", target: "meluret", label: "法语异名", type: "creator" },
+    { source: "pessoa", target: "baldaya", label: "占星分身", type: "creator" },
+    { source: "pessoa", target: "quaresma", label: "推理分身", type: "creator" },
+    { source: "pessoa", target: "faust", label: "正名长诗", type: "creator" },
+    { source: "pessoa", target: "maria_jose", label: "唯一女性", type: "creator" },
+    { source: "caeiro", target: "reis", label: "师→徒", type: "master" },
+    { source: "caeiro", target: "campos", label: "师→徒", type: "master" },
+    { source: "caeiro", target: "mora", label: "师→理论家", type: "master" },
+    { source: "caeiro", target: "crosse", label: "被翻译", type: "literary" },
+    { source: "campos", target: "reis", label: "论辩对手", type: "debate" },
+    { source: "campos", target: "caeiro", label: "回忆录", type: "literary" },
+    { source: "soares", target: "guedes", label: "接替", type: "succession" },
+    { source: "soares", target: "teive", label: "同族变体", type: "variant" },
+    { source: "search", target: "c_search", label: "表兄弟", type: "family" },
+    { source: "search", target: "anon", label: "同期异名", type: "contemporary" },
+    { source: "crosse", target: "ii_crosse", label: "兄弟", type: "family" },
+    { source: "mora", target: "reis", label: "哲学盟友", type: "debate" },
+    { source: "pessoa", target: "pacheco", label: "创造者", type: "creator" },
+    { source: "pessoa", target: "mora", label: "创造者", type: "creator" },
+    { source: "pessoa", target: "crosse", label: "创造者", type: "creator" },
+    { source: "pessoa", target: "sousa", label: "创造者", type: "creator" },
+    { source: "pessoa", target: "pantaleao", label: "创造者", type: "creator" },
+    { source: "pessoa", target: "faustino", label: "少年异名", type: "creator" },
+    { source: "pessoa", target: "c_search", label: "创造者", type: "creator" },
+    { source: "pessoa", target: "ii_crosse", label: "创造者", type: "creator" }
+  ]
+};
+
+const typeColors = {
+  ortonym: "#d4c498",
+  major: "#c8a84a",
+  semi: "#6a9cc8",
+  minor: "#a882b8"
+};
+
+const linkColors = {
+  master: "rgba(200,170,80,0.4)",
+  creator: "rgba(200,190,170,0.12)",
+  semi: "rgba(100,140,180,0.3)",
+  debate: "rgba(200,100,80,0.3)",
+  literary: "rgba(140,180,120,0.3)",
+  succession: "rgba(100,140,180,0.2)",
+  variant: "rgba(140,120,180,0.2)",
+  family: "rgba(180,140,160,0.2)",
+  contemporary: "rgba(160,160,160,0.15)"
+};
+
+const width = window.innerWidth;
+const height = window.innerHeight;
+
+const svg = d3.select("#canvas-container")
+  .append("svg")
+  .attr("viewBox", [0, 0, width, height]);
+
+const defs = svg.append("defs");
+
+pessoaData.nodes.forEach(node => {
+  const color = typeColors[node.type];
+  const grad = defs.append("radialGradient")
+    .attr("id", `glow-${node.id}`)
+    .attr("cx", "50%").attr("cy", "50%").attr("r", "50%");
+  grad.append("stop").attr("offset", "0%").attr("stop-color", color).attr("stop-opacity", 0.9);
+  grad.append("stop").attr("offset", "60%").attr("stop-color", color).attr("stop-opacity", 0.3);
+  grad.append("stop").attr("offset", "100%").attr("stop-color", color).attr("stop-opacity", 0);
+});
+
+const bgGrad = defs.append("radialGradient")
+  .attr("id", "bg-grad")
+  .attr("cx", "50%").attr("cy", "50%").attr("r", "60%");
+bgGrad.append("stop").attr("offset", "0%").attr("stop-color", "#12121e");
+bgGrad.append("stop").attr("offset", "100%").attr("stop-color", "#0a0a12");
+
+svg.append("rect")
+  .attr("width", width).attr("height", height)
+  .attr("fill", "url(#bg-grad)");
+
+const starCount = 200;
+const stars = svg.append("g").attr("class", "stars");
+for (let i = 0; i < starCount; i++) {
+  stars.append("circle")
+    .attr("cx", Math.random() * width)
+    .attr("cy", Math.random() * height)
+    .attr("r", Math.random() * 1.2 + 0.2)
+    .attr("fill", "#fff")
+    .attr("opacity", Math.random() * 0.3 + 0.05)
+    .style("animation", `pulseGlow ${3 + Math.random() * 4}s ease-in-out infinite`)
+    .style("animation-delay", `${Math.random() * 5}s`);
+}
+
+const g = svg.append("g");
+
+const zoom = d3.zoom()
+  .scaleExtent([0.3, 4])
+  .on("zoom", (event) => {
+    g.attr("transform", event.transform);
+  });
+
+svg.call(zoom);
+
+const simulation = d3.forceSimulation(pessoaData.nodes)
+  .force("link", d3.forceLink(pessoaData.links).id(d => d.id).distance(d => {
+    if (d.type === "master") return 120;
+    if (d.type === "creator") return 180;
+    return 150;
+  }))
+  .force("charge", d3.forceManyBody().strength(d => d.type === "ortonym" ? -800 : d.type === "major" ? -400 : -200))
+  .force("center", d3.forceCenter(width / 2, height / 2))
+  .force("collision", d3.forceCollide().radius(d => d.radius + 15));
+
+const linkGroup = g.append("g").attr("class", "links");
+const linkLines = linkGroup.selectAll("line")
+  .data(pessoaData.links)
+  .join("line")
+  .attr("stroke", d => linkColors[d.type] || "rgba(200,190,170,0.1)")
+  .attr("stroke-width", d => d.type === "master" ? 1.5 : 0.8)
+  .attr("stroke-dasharray", d => d.type === "debate" ? "4,4" : "none");
+
+const linkLabels = linkGroup.selectAll("text")
+  .data(pessoaData.links)
+  .join("text")
+  .attr("class", "link-label")
+  .text(d => d.label)
+  .attr("opacity", 0);
+
+const nodeGroup = g.append("g").attr("class", "nodes");
+
+const nodeGs = nodeGroup.selectAll("g")
+  .data(pessoaData.nodes)
+  .join("g")
+  .attr("cursor", "pointer")
+  .call(d3.drag()
+    .on("start", dragStarted)
+    .on("drag", dragged)
+    .on("end", dragEnded));
+
+nodeGs.append("circle")
+  .attr("class", "node-glow")
+  .attr("r", d => d.radius * 2)
+  .attr("fill", d => `url(#glow-${d.id})`)
+  .attr("opacity", 0.3);
+
+nodeGs.append("circle")
+  .attr("class", "node-core")
+  .attr("r", d => d.radius)
+  .attr("fill", d => {
+    const c = typeColors[d.type];
+    return c;
+  })
+  .attr("opacity", 0.85)
+  .attr("stroke", d => typeColors[d.type])
+  .attr("stroke-width", 1)
+  .attr("stroke-opacity", 0.5);
+
+nodeGs.append("text")
+  .attr("dy", d => d.radius + 16)
+  .attr("text-anchor", "middle")
+  .attr("fill", d => typeColors[d.type])
+  .attr("font-size", d => d.type === "ortonym" ? "13px" : d.type === "major" || d.type === "semi" ? "12px" : "10px")
+  .attr("font-family", "'Noto Serif SC', serif")
+  .attr("opacity", d => d.type === "minor" ? 0.6 : 0.85)
+  .text(d => d.name);
+
+nodeGs.append("text")
+  .attr("dy", d => d.radius + 30)
+  .attr("text-anchor", "middle")
+  .attr("fill", "rgba(200,190,170,0.35)")
+  .attr("font-size", "9px")
+  .attr("font-family", "'Cormorant Garamond', serif")
+  .attr("font-style", "italic")
+  .text(d => d.namePt);
+
+const tooltip = document.getElementById("tooltip");
+const detailPanel = document.getElementById("detailPanel");
+const panelContent = document.getElementById("panelContent");
+const panelClose = document.getElementById("panelClose");
+
+nodeGs.on("mouseover", function(event, d) {
+  tooltip.style.opacity = "1";
+  tooltip.innerHTML = `<strong>${d.name}</strong><br><span style="opacity:0.6;font-style:italic">${d.namePt}</span>`;
+
+  d3.select(this).select(".node-core")
+    .transition().duration(200)
+    .attr("opacity", 1)
+    .attr("r", d.radius * 1.15);
+  d3.select(this).select(".node-glow")
+    .transition().duration(200)
+    .attr("opacity", 0.6);
+
+  linkLabels
+    .filter(l => l.source.id === d.id || l.target.id === d.id)
+    .transition().duration(200).attr("opacity", 1);
+  linkLines
+    .filter(l => l.source.id === d.id || l.target.id === d.id)
+    .transition().duration(200).attr("stroke-opacity", 1).attr("stroke-width", 2);
+});
+
+nodeGs.on("mousemove", function(event) {
+  tooltip.style.left = (event.pageX + 15) + "px";
+  tooltip.style.top = (event.pageY - 10) + "px";
+});
+
+nodeGs.on("mouseout", function(event, d) {
+  tooltip.style.opacity = "0";
+
+  d3.select(this).select(".node-core")
+    .transition().duration(300)
+    .attr("opacity", 0.85)
+    .attr("r", d.radius);
+  d3.select(this).select(".node-glow")
+    .transition().duration(300)
+    .attr("opacity", 0.3);
+
+  linkLabels.transition().duration(300).attr("opacity", 0);
+  linkLines.transition().duration(300).attr("stroke-opacity", 1).attr("stroke-width", d => d.type === "master" ? 1.5 : 0.8);
+});
+
+nodeGs.on("click", function(event, d) {
+  event.stopPropagation();
+  openPanel(d);
+});
+
+panelClose.addEventListener("click", () => {
+  detailPanel.classList.remove("open");
+});
+
+svg.on("click", () => {
+  detailPanel.classList.remove("open");
+});
+
+function openPanel(d) {
+  const typeLabel = { ortonym: "正名 Ortónimo", major: "主要异名者 Heterónimo Principal", semi: "半异名者 Semi-Heterónimo", minor: "次要异名者 Heterónimo Menor" };
+  const langLabel = { pt: "葡萄牙语", en: "英语", fr: "法语" };
+  const tagClass = { ortonym: "tag-ortonym", major: "tag-major", semi: "tag-semi", minor: "tag-minor" };
+
+  let html = `
+    <div class="panel-header">
+      <div class="panel-name">${d.name}</div>
+      <div class="panel-name-pt">${d.namePt}</div>
+      <div class="panel-tags">
+        <span class="panel-tag ${tagClass[d.type]}">${typeLabel[d.type]}</span>
+        <span class="panel-tag tag-lang">${langLabel[d.lang]}</span>
+      </div>
+    </div>
+  `;
+
+  if (d.born || d.died) {
+    html += `
+      <div class="panel-section">
+        <div class="section-title">生卒</div>
+        <div class="section-text">
+          ${d.born ? `<div>生：${d.born}</div>` : ""}
+          ${d.died ? `<div>卒：${d.died}</div>` : ""}
+        </div>
+      </div>
+    `;
+  }
+
+  html += `
+    <div class="panel-section">
+      <div class="section-title">传记</div>
+      <div class="section-text">${d.bio}</div>
+    </div>
+  `;
+
+  html += `
+    <div class="panel-section">
+      <div class="section-title">写作风格</div>
+      <div class="section-text">${d.style}</div>
+    </div>
+  `;
+
+  html += `
+    <div class="panel-section">
+      <div class="section-title">哲学 / 世界观</div>
+      <div class="section-text">${d.philosophy}</div>
+    </div>
+  `;
+
+  if (d.quote) {
+    html += `
+      <div class="panel-section">
+        <div class="section-title">名句</div>
+        <div class="quote-block">
+          ${d.quote.replace(/\n/g, "<br>")}
+          ${d.quoteSrc ? `<span class="quote-src">—— ${d.quoteSrc}</span>` : ""}
+        </div>
+      </div>
+    `;
+  }
+
+  if (d.works && d.works.length > 0) {
+    html += `
+      <div class="panel-section">
+        <div class="section-title">主要作品</div>
+        <ul class="works-list">
+          ${d.works.map(w => `
+            <li>
+              <div>
+                <div class="work-title">${w.title}</div>
+                ${w.desc ? `<div class="work-desc">${w.desc}</div>` : ""}
+              </div>
+              <div class="work-year">${w.year}</div>
+            </li>
+          `).join("")}
+        </ul>
+      </div>
+    `;
+  }
+
+  const relatedLinks = pessoaData.links.filter(l =>
+    (l.source.id || l.source) === d.id || (l.target.id || l.target) === d.id
+  );
+  if (relatedLinks.length > 0) {
+    html += `
+      <div class="panel-section">
+        <div class="section-title">关系网络</div>
+        <ul class="relations-list">
+          ${relatedLinks.map(l => {
+            const otherId = (l.source.id || l.source) === d.id ? (l.target.id || l.target) : (l.source.id || l.source);
+            const otherNode = pessoaData.nodes.find(n => n.id === otherId);
+            return `<li><span class="rel-target" data-id="${otherId}">${otherNode ? otherNode.name : otherId}</span> — ${l.label}</li>`;
+          }).join("")}
+        </ul>
+      </div>
+    `;
+  }
+
+  panelContent.innerHTML = html;
+  detailPanel.classList.add("open");
+
+  panelContent.querySelectorAll(".rel-target").forEach(el => {
+    el.addEventListener("click", () => {
+      const targetNode = pessoaData.nodes.find(n => n.id === el.dataset.id);
+      if (targetNode) openPanel(targetNode);
+    });
+  });
+}
+
+simulation.on("tick", () => {
+  linkLines
+    .attr("x1", d => d.source.x)
+    .attr("y1", d => d.source.y)
+    .attr("x2", d => d.target.x)
+    .attr("y2", d => d.target.y);
+
+  linkLabels
+    .attr("x", d => (d.source.x + d.target.x) / 2)
+    .attr("y", d => (d.source.y + d.target.y) / 2);
+
+  nodeGs.attr("transform", d => `translate(${d.x},${d.y})`);
+});
+
+function dragStarted(event, d) {
+  if (!event.active) simulation.alphaTarget(0.3).restart();
+  d.fx = d.x;
+  d.fy = d.y;
+}
+
+function dragged(event, d) {
+  d.fx = event.x;
+  d.fy = event.y;
+}
+
+function dragEnded(event, d) {
+  if (!event.active) simulation.alphaTarget(0);
+  d.fx = null;
+  d.fy = null;
+}
+
+let activeFilter = "all";
+
+document.querySelectorAll(".filter-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    activeFilter = btn.dataset.filter;
+    applyFilter();
+  });
+});
+
+function applyFilter() {
+  nodeGs.transition().duration(400)
+    .attr("opacity", d => {
+      if (activeFilter === "all") return 1;
+      if (activeFilter === "major" && d.type === "major") return 1;
+      if (activeFilter === "semi" && d.type === "semi") return 1;
+      if (activeFilter === "minor" && d.type === "minor") return 1;
+      if (activeFilter === "pt" && d.lang === "pt") return 1;
+      if (activeFilter === "en" && d.lang === "en") return 1;
+      if (activeFilter === "fr" && d.lang === "fr") return 1;
+      if (d.type === "ortonym") return 0.8;
+      return 0.08;
+    });
+
+  linkLines.transition().duration(400)
+    .attr("opacity", d => {
+      if (activeFilter === "all") return 1;
+      const s = d.source;
+      const t = d.target;
+      const sMatch = matchFilter(s);
+      const tMatch = matchFilter(t);
+      return (sMatch && tMatch) ? 1 : 0.03;
+    });
+}
+
+function matchFilter(node) {
+  if (activeFilter === "all") return true;
+  if (node.type === "ortonym") return true;
+  if (activeFilter === "major") return node.type === "major";
+  if (activeFilter === "semi") return node.type === "semi";
+  if (activeFilter === "minor") return node.type === "minor";
+  if (activeFilter === "pt") return node.lang === "pt";
+  if (activeFilter === "en") return node.lang === "en";
+  if (activeFilter === "fr") return node.lang === "fr";
+  return false;
+}
+
+svg.call(zoom.transform, d3.zoomIdentity.translate(width * 0.05, height * 0.05).scale(0.9));
+</script>
+</body>
+</html>
